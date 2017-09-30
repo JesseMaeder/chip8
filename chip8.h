@@ -24,3 +24,7 @@ typedef struct {
 } Chip8;
 
 Chip8 * init(char* game);
+
+void shutdown(Chip8 * c8);
+
+unsigned short get_instr(Chip8 * c8);
