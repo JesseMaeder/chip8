@@ -12,16 +12,16 @@ Usage: `./chip8 <game_file>`
 ## Opcode table
 Taken from [Wikipedia](https://en.wikipedia.org/wiki/CHIP-8).
 
-| Implemented | Opcode | Operation | Explanation |
-|-------------|--------|-----------|-------------|
+|   | Opcode | Operation | Explanation |
+|---|--------|-----------|-------------|
 | ✓ | 0NNN | | Calls RCA 1802 program at address NNN. Not necessary for most ROMs. |
 | ✓ | 00E0 | `disp_clear()` | Clears the screen. |
 | ✓ | 00EE | `return;` | Returns from a subroutine. |
 | ✓ | 1NNN | `goto NNN;` | Jumps to address NNN. |
 | ✓ | 2NNN | `*(0xNNN)()` | Calls subroutine at NNN. |
-|  | 3XNN | `if (VX == NN)` | Skips the next instruction if VX equals NN. (Usually the next instruction is a jump to skip a code block) |
-|  | 4XNN | `if (VX != NN)` | Skips the next instruction if VX doesn't equal NN. (Usually the next instruction is a jump to skip a code block) |
-|  | 5XY0 | `if (VX == VY)` | Skips the next instruction if VX equals VY. (Usually the next instruction is a jump to skip a code block) |
+| ✓ | 3XNN | `if (VX == NN)` | Skips the next instruction if VX equals NN. (Usually the next instruction is a jump to skip a code block) |
+| ✓ | 4XNN | `if (VX != NN)` | Skips the next instruction if VX doesn't equal NN. (Usually the next instruction is a jump to skip a code block) |
+| ✓ | 5XY0 | `if (VX == VY)` | Skips the next instruction if VX equals VY. (Usually the next instruction is a jump to skip a code block) |
 |  | 6XNN | `VX = NN` | Sets VX to NN. |
 |  | 7XNN | `VX += NN` | Adds NN to VX. (Carry flag is not changed) |
 |  | 8XY0 | `VX = VY` | Sets VX to the value of VY. |

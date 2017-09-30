@@ -37,3 +37,9 @@ void ret(Chip8 *c8);
 void jump(Chip8 * c8, short addr);
 
 void jump_link(Chip8 * c8, short addr);
+
+void if_eq(Chip8 * c8, unsigned char reg, char val);
+
+void if_neq(Chip8 * c8, unsigned char reg, char val);
+
+void if_req(Chip8 * c8, unsigned char reg_x, unsigned char reg_y);
