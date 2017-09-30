@@ -38,8 +38,62 @@ void jump(Chip8 * c8, short addr);
 
 void jump_link(Chip8 * c8, short addr);
 
+void jump_off(Chip8 * c8, short addr);
+
 void if_eq(Chip8 * c8, unsigned char reg, char val);
 
 void if_neq(Chip8 * c8, unsigned char reg, char val);
 
 void if_req(Chip8 * c8, unsigned char reg_x, unsigned char reg_y);
+
+void if_rneq(Chip8 * c8, unsigned char reg_x, unsigned char reg_y);
+
+void set_n(Chip8 * c8, unsigned char reg, char val);
+
+void add_n(Chip8 * c8, unsigned char reg, char val);
+
+void set_r(Chip8 * c8, unsigned char reg_x, unsigned char reg_y);
+
+void or_r(Chip8 * c8, unsigned char reg_x, unsigned char reg_y);
+
+void and_r(Chip8 * c8, unsigned char reg_x, unsigned char reg_y);
+
+void xor_r(Chip8 * c8, unsigned char reg_x, unsigned char reg_y);
+
+void add_r(Chip8 * c8, unsigned char reg_x, unsigned char reg_y);
+
+void sub_r(Chip8 * c8, unsigned char reg_x, unsigned char reg_y);
+
+void rs_r(Chip8 * c8, unsigned char reg_x, unsigned char reg_y);
+
+void diff_r(Chip8 * c8, unsigned char reg_x, unsigned char reg_y);
+
+void ls_r(Chip8 * c8, unsigned char reg_x, unsigned char reg_y);
+
+void set_i(Chip8 * c8, short addr);
+
+void add_i(Chip8 * c8, unsigned char reg);
+
+void rand(Chip8 * c8, unsigned char reg, char val);
+
+void draw(Chip8 * c8, unsigned char reg_x, unsigned char reg_y, char rows);
+
+void if_key(Chip8 * c8, unsigned char reg);
+
+void if_nkey(Chip8 * c8, unsigned char reg);
+
+void get_delay(Chip8 * c8, unsigned char reg);
+
+void get_key(Chip8 * c8, unsigned char reg);
+
+void set_delay(Chip8 * c8, unsigned char reg);
+
+void set_sound(Chip8 * c8, unsigned char reg);
+
+void load_ch(Chip8 * c8, unsigned char reg);
+
+void store_bcd(Chip8 * c8, unsigned char reg);
+
+void dump_reg(Chip8 * c8, unsigned char reg);
+
+void load_reg(Chip8 * c8, unsigned char reg);
