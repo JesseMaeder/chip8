@@ -16,9 +16,10 @@ typedef struct {
     unsigned char v[NUM_REGISTERS];
     unsigned char i;
     unsigned short stack[STACK_SIZE];
+    unsigned short sp;
     unsigned char delay, sound;
     unsigned char inputs[NUM_INPUTS];
-    unsigned char screen[(SCR_WIDTH / 0x8) * (SCR_HEIGHT / 0x8)];
+    unsigned char screen[SCR_WIDTH * SCR_HEIGHT / 0x40];
     bool draw;
     unsigned short pc;
 } Chip8;
@@ -28,3 +29,11 @@ Chip8 * init(char* game);
 void shutdown(Chip8 * c8);
 
 unsigned short get_instr(Chip8 * c8);
+
+void clear_scr(Chip8 * c8);
+
+void ret(Chip8 *c8);
+
+void jump(Chip8 * c8, short addr);
+
+void jump_link(Chip8 * c8, short addr);
