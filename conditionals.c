@@ -17,4 +17,7 @@ void if_req(Chip8 * c8, unsigned char reg_x, unsigned char reg_y) {
     if (c8->v[reg_x] == c8->v[reg_y]) c8->pc += 2;
 }
 
-void if_rneq(Chip8 * c8, unsigned char reg_x, unsigned char reg_y);
+void if_rneq(Chip8 * c8, unsigned char reg_x, unsigned char reg_y) {
+    // 0x9XY0
+    if (c8->v[reg_x] != c8->v[reg_y]) c8->pc += 2;
+}

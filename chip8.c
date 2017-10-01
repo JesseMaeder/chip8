@@ -24,7 +24,9 @@ unsigned short get_instr(Chip8 * c8) {
     return instr;
 }
 
-void set_i(Chip8 * c8, short addr);
+void set_i(Chip8 * c8, short addr) {
+    c8->i = addr;
+}
 
 void add_i(Chip8 * c8, unsigned char reg);
 
@@ -126,10 +128,13 @@ int main(int argc, char * argv[]) {
                 }
                 break;
             case 0x9:
+                if_rneq(engine, reg_x, reg_y);
                 break;
             case 0xa:
+                set_i(engine, addr);
                 break;
             case 0xb:
+                jump_off(engine, addr);
                 break;
             case 0xc:
                 rand_r(engine, reg_x, val);

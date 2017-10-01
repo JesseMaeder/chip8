@@ -34,4 +34,7 @@ void jump_link(Chip8 * c8, short addr) {
     jump(c8, addr);
 }
 
-void jump_off(Chip8 * c8, short addr);
+void jump_off(Chip8 * c8, short addr) {
+    // 0xBNNN
+    jump(c8, c8->v[0] + addr);
+}
