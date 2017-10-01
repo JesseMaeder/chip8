@@ -31,16 +31,26 @@ unsigned short get_instr(Chip8 * c8) {
 }
 
 void set_i(Chip8 * c8, short addr) {
+    // 0xaNNN
     c8->i = addr;
 }
 
 void add_i(Chip8 * c8, unsigned char reg);
 
-void get_delay(Chip8 * c8, unsigned char reg);
+void get_delay(Chip8 * c8, unsigned char reg) {
+    // 0xfX07
+    c8->v[reg] = c8->delay;
+}
 
-void set_delay(Chip8 * c8, unsigned char reg);
+void set_delay(Chip8 * c8, unsigned char reg) {
+    // 0xfX15
+    c8->delay = c8->v[reg];
+}
 
-void set_sound(Chip8 * c8, unsigned char reg);
+void set_sound(Chip8 * c8, unsigned char reg) {
+    // 0xfX18
+    c8->sound = c8->v[reg];
+}
 
 void store_bcd(Chip8 * c8, unsigned char reg);
 
@@ -67,6 +77,12 @@ int main(int argc, char * argv[]) {
     while (engine->pc < MEM_SIZE) {
         // update the input state, get which key is currently pressed
         read_key(engine);
+
+        // update timers
+        if (engine->delay > 0) engine->delay--;
+        if (engine->sound > 0) engine->sound--;
+        if (engine->sound == 1) printf("BEEP\n");
+
         instr = get_instr(engine);
         // printf("%04x\n", instr);
         if (instr == 0) break;
@@ -158,6 +174,15 @@ int main(int argc, char * argv[]) {
                 switch (val) {
                     case 0x0a:
                         get_key(engine, reg_x);
+                        break;
+                    case 0x07:
+                        get_delay(engine, reg_x);
+                        break;
+                    case 0x15:
+                        set_delay(engine, reg_x);
+                        break;
+                    case 0x18:
+                        set_sound(engine, reg_x);
                         break;
                 }
                 break;

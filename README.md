@@ -40,10 +40,10 @@ Taken from [Wikipedia](https://en.wikipedia.org/wiki/CHIP-8).
 |  | DXYN | `draw(VX, VY, N)` | Draws a sprite at coordinate (VX, VY) that has a width of 8 pixels and a height of N pixels. Each row of 8 pixels is read as bit-coded starting from memory location I; I value doesn’t change after the execution of this instruction. As described above, VF is set to 1 if any screen pixels are flipped from set to unset when the sprite is drawn, and to 0 if that doesn’t happen |
 | ✓ | EX9E | `if (key() == VX)` | Skips the next instruction if the key stored in VX is pressed. (Usually the next instruction is a jump to skip a code block) |
 | ✓ | EXA1 | `if (key() != VX)` | Skips the next instruction if the key stored in VX isn't pressed. (Usually the next instruction is a jump to skip a code block) |
-|  | FX07 | `VX = get_delay()` | Sets VX to the value of the delay timer. |
+| ✓ | FX07 | `VX = get_delay()` | Sets VX to the value of the delay timer. |
 | ✓ | FX0A | `VX = get_key()` | A key press is awaited, and then stored in VX. (Blocking Operation. All instruction halted until next key event) |
-|  | FX15 | `delay_timer(VX)` | Sets the delay timer to VX. |
-|  | FX18 | `sound_timer(VX)` | Sets the sound timer to VX. |
+| ✓ | FX15 | `delay_timer(VX)` | Sets the delay timer to VX. |
+| ✓ | FX18 | `sound_timer(VX)` | Sets the sound timer to VX. |
 |  | FX1E | `I += VX` | Adds VX to I. |
 |  | FX29 | `I = sprite_addr[VX]` | Sets I to the location of the sprite for the character in VX. Characters 0-F (in hexadecimal) are represented by a 4x5 font. |
 |  | FX33 | `set_BCD(VX);`<br>`*(I+0) = BCD(3);`<br>`*(I+1) = BCD(2);`<br>`*(I+2) = BCD(1);` | Stores the binary-coded decimal representation of VX, with the most significant of three digits at the address in I, the middle digit at I plus 1, and the least significant digit at I plus 2. (In other words, take the decimal representation of VX, place the hundreds digit in memory at location in I, the tens digit at location I+1, and the ones digit at location I+2.) |
