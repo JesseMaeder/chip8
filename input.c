@@ -1,5 +1,4 @@
 #include "chip8.h"
-
 #include "input.h"
 
 #include <string.h>

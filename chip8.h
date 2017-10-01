@@ -18,7 +18,7 @@
 typedef struct {
     unsigned char mem[MEM_SIZE];
     unsigned char v[NUM_REGISTERS];
-    unsigned char i;
+    unsigned short i;
     unsigned short stack[STACK_SIZE];
     unsigned short sp;
     unsigned char delay, sound;

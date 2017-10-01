@@ -45,7 +45,7 @@ Taken from [Wikipedia](https://en.wikipedia.org/wiki/CHIP-8).
 | ✓ | FX15 | `delay_timer(VX)` | Sets the delay timer to VX. |
 | ✓ | FX18 | `sound_timer(VX)` | Sets the sound timer to VX. |
 | ✓ | FX1E | `I += VX` | Adds VX to I. |
-|  | FX29 | `I = sprite_addr[VX]` | Sets I to the location of the sprite for the character in VX. Characters 0-F (in hexadecimal) are represented by a 4x5 font. |
+| ✓ | FX29 | `I = sprite_addr[VX]` | Sets I to the location of the sprite for the character in VX. Characters 0-F (in hexadecimal) are represented by a 4x5 font. |
 |  | FX33 | `set_BCD(VX);`<br>`*(I+0) = BCD(3);`<br>`*(I+1) = BCD(2);`<br>`*(I+2) = BCD(1);` | Stores the binary-coded decimal representation of VX, with the most significant of three digits at the address in I, the middle digit at I plus 1, and the least significant digit at I plus 2. (In other words, take the decimal representation of VX, place the hundreds digit in memory at location in I, the tens digit at location I+1, and the ones digit at location I+2.) |
 |  | FX55 | `reg_dump(VX, &I)` | Stores V0 to VX (including VX) in memory starting at address I. I is increased by 1 for each value written. |
 |  | FX65 | `reg_load(VX, &I)` | Fills V0 to VX (including VX) with values from memory starting at address I. I is increased by 1 for each value written. |

@@ -1,5 +1,6 @@
 #include "chip8.h"
 #include "input.h"
+#include "display.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -29,16 +30,6 @@ Chip8 * init_emu(char* game) {
     fclose(fp);
 
     return c8;
-}
-
-void init_window(SDL_Window ** window, SDL_Renderer ** renderer) {
-    int width = SCR_WIDTH * SCR_SCALE;
-    int height = SCR_HEIGHT * SCR_SCALE;
-    SDL_Init(SDL_INIT_VIDEO);
-    SDL_CreateWindowAndRenderer(width, height, 0, window, renderer);
-    SDL_SetRenderDrawColor(*renderer, 0, 0, 0, 0);
-    SDL_RenderClear(*renderer);
-    SDL_SetRenderDrawColor(*renderer, 255, 255, 255, 255);
 }
 
 unsigned short get_instr(Chip8 * c8) {
@@ -95,7 +86,6 @@ int main(int argc, char * argv[]) {
     SDL_Renderer *renderer;
     SDL_Window *window;
     init_window(&window, &renderer);
-    SDL_RenderPresent(renderer);
 
     unsigned short instr, addr;
     unsigned char opcode, reg_x, reg_y, val, mod;
@@ -117,7 +107,7 @@ int main(int argc, char * argv[]) {
         reg_y = instr & 0xf0 >> 4;
         val = instr & 0xff;
         mod = instr & 0xf;
-        
+
         switch (opcode) {
             case 0x0:
                 if (instr == 0xe0) clear_scr(engine);
@@ -213,14 +203,15 @@ int main(int argc, char * argv[]) {
                     case 0x1e:
                         add_i(engine, reg_x);
                         break;
+                    case 0x29:
+                        load_ch(engine, reg_x);
+                        break;
                 }
                 break;
         }
     }
 
     shutdown_emu(engine);
-    SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(window);
-    SDL_Quit();
+    destroy_window(window, renderer);
     return 0;
 }
