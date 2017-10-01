@@ -3,25 +3,42 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <ncurses.h>
+#include <SDL2/SDL.h>
 
-Chip8 * init(char* game) {
+Chip8 * init_emu(char* game) {
     FILE * fp = fopen(game, "r");
     if (fp == 0) {
         fprintf(stderr, "File does not exist: %s\n", game);
         exit(1);
     }
+
     Chip8 * c8 = malloc(sizeof(Chip8));
+
+    // load font information
+    FILE * font = fopen(FONT_FILE, "r");
+    if (font) {
+        fread((char *) c8->mem, 1, PC_START, font);
+        fclose(font);
+    } else {
+        fprintf(stderr, "Cannot load font information.\n");
+    }
+
+    // load game into memory at PC_START (0x200 by default)
     c8->pc = PC_START;
     fread((char *) c8->mem + PC_START, 1, MEM_SIZE - PC_START, fp);
     fclose(fp);
 
-    // initialize ncurses for reading input 
-    initscr();
-    noecho();
-    nodelay(stdscr, TRUE);
-
     return c8;
+}
+
+void init_window(SDL_Window ** window, SDL_Renderer ** renderer) {
+    int width = SCR_WIDTH * SCR_SCALE;
+    int height = SCR_HEIGHT * SCR_SCALE;
+    SDL_Init(SDL_INIT_VIDEO);
+    SDL_CreateWindowAndRenderer(width, height, 0, window, renderer);
+    SDL_SetRenderDrawColor(*renderer, 0, 0, 0, 0);
+    SDL_RenderClear(*renderer);
+    SDL_SetRenderDrawColor(*renderer, 255, 255, 255, 255);
 }
 
 unsigned short get_instr(Chip8 * c8) {
@@ -61,9 +78,8 @@ void dump_reg(Chip8 * c8, unsigned char reg);
 
 void load_reg(Chip8 * c8, unsigned char reg);
 
-void shutdown(Chip8 * c8) {
+void shutdown_emu(Chip8 * c8) {
     printf("Shutting down emulator\n");
-    endwin();
     free(c8);
 }
 
@@ -73,13 +89,18 @@ int main(int argc, char * argv[]) {
         return 1;
     }
 
-    Chip8 * engine = init(argv[1]);
+    Chip8 * engine = init_emu(argv[1]);
+
+    SDL_Event event;
+    SDL_Renderer *renderer;
+    SDL_Window *window;
+    init_window(&window, &renderer);
+    SDL_RenderPresent(renderer);
 
     unsigned short instr, addr;
     unsigned char opcode, reg_x, reg_y, val, mod;
     while (engine->pc < MEM_SIZE) {
-        // update the input state, get which key is currently pressed
-        read_key(engine);
+        if (SDL_PollEvent(&event) && event.type == SDL_QUIT) break;
 
         // update timers
         if (engine->delay > 0) engine->delay--;
@@ -88,13 +109,15 @@ int main(int argc, char * argv[]) {
 
         instr = get_instr(engine);
         // printf("%04x\n", instr);
-        if (instr == 0) break;
+        if (!instr) break;
+
         opcode = (instr & 0xf000) >> 12;
         addr = instr & 0xfff;
         reg_x = instr & 0xf00 >> 8;
         reg_y = instr & 0xf0 >> 4;
         val = instr & 0xff;
         mod = instr & 0xf;
+        
         switch (opcode) {
             case 0x0:
                 if (instr == 0xe0) clear_scr(engine);
@@ -195,6 +218,9 @@ int main(int argc, char * argv[]) {
         }
     }
 
-    shutdown(engine);
+    shutdown_emu(engine);
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
+    SDL_Quit();
     return 0;
 }

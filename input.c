@@ -2,7 +2,6 @@
 
 #include "input.h"
 
-#include <curses.h>
 #include <string.h>
 
 void if_key(Chip8 * c8, unsigned char reg) {
@@ -17,19 +16,17 @@ void if_nkey(Chip8 * c8, unsigned char reg) {
 
 void get_key(Chip8 * c8, unsigned char reg) {
     // 0xfX0a
-    nodelay(stdscr, FALSE);
     int key;
     do {
         key = read_key(c8);
     } while (key == -1);
 
     c8->inputs[reg] = key;
-    nodelay(stdscr, TRUE);
 }
 
 int read_key(Chip8 * c8) {
     memset(c8->inputs, 0, NUM_INPUTS);
-    char ch = getch();
+    char ch = 49;
     int map = -1;
     switch (ch) {
         case 49:  // 1

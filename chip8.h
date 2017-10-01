@@ -2,6 +2,7 @@
 #ifndef CHIP8
 #define CHIP8
 #include <stdbool.h>
+#include <SDL2/SDL.h>
 
 // system specs
 #define MEM_SIZE 0x1000
@@ -10,7 +11,9 @@
 #define NUM_INPUTS 0x10
 #define SCR_WIDTH 0x40
 #define SCR_HEIGHT 0x20
+#define SCR_SCALE 0x14
 #define PC_START 0x200
+#define FONT_FILE "FONT"
 
 typedef struct {
     unsigned char mem[MEM_SIZE];
@@ -25,9 +28,9 @@ typedef struct {
     unsigned short pc;
 } Chip8;
 
-Chip8 * init(char* game);
+Chip8 * init_emu(char* game);
 
-void shutdown(Chip8 * c8);
+void shutdown_emu(Chip8 * c8);
 
 unsigned short get_instr(Chip8 * c8);
 
@@ -77,7 +80,7 @@ void add_i(Chip8 * c8, unsigned char reg);
 
 void rand_r(Chip8 * c8, unsigned char reg, char val);
 
-void draw(Chip8 * c8, unsigned char reg_x, unsigned char reg_y, char rows);
+void draw(Chip8 * c8, SDL_Renderer * renderer, unsigned char reg_x, unsigned char reg_y, char rows);
 
 void if_key(Chip8 * c8, unsigned char reg);
 

@@ -1,7 +1,7 @@
 all: chip8
 
 chip8: chip8.o conditionals.o display.o input.o jumps.o operations.o
-	gcc -o chip8 chip8.o conditionals.o display.o input.o jumps.o operations.o -lncurses 
+	gcc -o chip8 chip8.o conditionals.o display.o input.o jumps.o operations.o -lSDL2 
 
 chip8.o: chip8.c
 	gcc -std=c99 -pedantic -Wall -ggdb -c chip8.c
