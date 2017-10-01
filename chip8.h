@@ -74,7 +74,7 @@ void set_i(Chip8 * c8, short addr);
 
 void add_i(Chip8 * c8, unsigned char reg);
 
-void rand(Chip8 * c8, unsigned char reg, char val);
+void rand_r(Chip8 * c8, unsigned char reg, char val);
 
 void draw(Chip8 * c8, unsigned char reg_x, unsigned char reg_y, char rows);
 

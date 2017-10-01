@@ -4,7 +4,6 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
 Chip8 * init(char* game) {
     FILE * fp = fopen(game, "r");
@@ -25,54 +24,17 @@ unsigned short get_instr(Chip8 * c8) {
     return instr;
 }
 
-void clear_scr(Chip8 * c8) {
-    // 0x00e0
-    memset(c8->screen, 0, SCR_WIDTH * SCR_HEIGHT / 0x40);
-}
+void get_delay(Chip8 * c8, unsigned char reg);
 
-void ret(Chip8 * c8) {
-    // 0x00ee
-    if (c8->sp) {
-        c8->pc = c8->stack[--c8->sp];
-    } else {
-        printf("Exiting.\n");
-        shutdown(c8);
-        exit(0);
-    }
-}
+void set_delay(Chip8 * c8, unsigned char reg);
 
-void jump(Chip8 * c8, short addr) {
-    // 0x1NNN
-    c8->pc = addr;
-}
+void set_sound(Chip8 * c8, unsigned char reg);
 
-void jump_link(Chip8 * c8, short addr) {
-    // 0x2NNN
-    printf("%d\n", c8->sp);
-    if (c8->sp >= STACK_SIZE) {
-        fprintf(stderr, "Stack overflow error!\n");
-        shutdown(c8);
-        exit(2);
-    }
+void store_bcd(Chip8 * c8, unsigned char reg);
 
-    c8->stack[c8->sp++] = c8->pc + 2;
-    jump(c8, addr);
-}
+void dump_reg(Chip8 * c8, unsigned char reg);
 
-void if_eq(Chip8 * c8, unsigned char reg, char val) {
-    // 0x3XNN
-    if (c8->v[reg] == val) c8->pc += 2;
-}
-
-void if_neq(Chip8 * c8, unsigned char reg, char val) {
-    // 0x4XNN
-    if (c8->v[reg] != val) c8->pc += 2;
-}
-
-void if_req(Chip8 * c8, unsigned char reg_x, unsigned char reg_y) {
-    // 0x5XY0
-    if (c8->v[reg_x] == c8->v[reg_y]) c8->pc += 2;
-}
+void load_reg(Chip8 * c8, unsigned char reg);
 
 void shutdown(Chip8 * c8) {
     printf("Shutting down emulator\n");
