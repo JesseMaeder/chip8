@@ -35,7 +35,10 @@ void set_i(Chip8 * c8, short addr) {
     c8->i = addr;
 }
 
-void add_i(Chip8 * c8, unsigned char reg);
+void add_i(Chip8 * c8, unsigned char reg) {
+    // 0xfX1e
+    c8->i += c8->v[reg];
+}
 
 void get_delay(Chip8 * c8, unsigned char reg) {
     // 0xfX07
@@ -183,6 +186,9 @@ int main(int argc, char * argv[]) {
                         break;
                     case 0x18:
                         set_sound(engine, reg_x);
+                        break;
+                    case 0x1e:
+                        add_i(engine, reg_x);
                         break;
                 }
                 break;
