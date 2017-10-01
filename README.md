@@ -22,21 +22,21 @@ Taken from [Wikipedia](https://en.wikipedia.org/wiki/CHIP-8).
 | ✓ | 3XNN | `if (VX == NN)` | Skips the next instruction if VX equals NN. (Usually the next instruction is a jump to skip a code block) |
 | ✓ | 4XNN | `if (VX != NN)` | Skips the next instruction if VX doesn't equal NN. (Usually the next instruction is a jump to skip a code block) |
 | ✓ | 5XY0 | `if (VX == VY)` | Skips the next instruction if VX equals VY. (Usually the next instruction is a jump to skip a code block) |
-|  | 6XNN | `VX = NN` | Sets VX to NN. |
-|  | 7XNN | `VX += NN` | Adds NN to VX. (Carry flag is not changed) |
-|  | 8XY0 | `VX = VY` | Sets VX to the value of VY. |
-|  | 8XY1 | `VX = VX \| VY` | Sets VX to VX or VY. (Bitwise OR operation) |
-|  | 8XY2 | `VX = VX & VY` | Sets VX to VX and VY. (Bitwise AND operation) |
-|  | 8XY3 | `VX = VX ^ VY` | Sets VX to VX xor VY. |
-|  | 8XY4 | `VX += VY` | Adds VY to VX. VF is set to 1 when there's a carry, and to 0 when there isn't. |
-|  | 8XY5 | `VX -= VY` | VY is subtracted from VX. VF is set to 0 when there's a borrow, and 1 when there isn't. |
-|  | 8XY6 | `VX = VY = VY >> 1` | Shifts VY right by one and copies the result to VX. VF is set to the value of the least significant bit of VY before the shift. |
-|  | 8XY7 | `VX = VY - VX` | Sets VX to VY minus VX. VF is set to 0 when there's a borrow, and 1 when there isn't. |
-|  | 8XYE | `VX = VY = VY << 1` | Shifts VY left by one and copies the result to VX. VF is set to the value of the most significant bit of VY before the shift. |
+| ✓ | 6XNN | `VX = NN` | Sets VX to NN. |
+| ✓ | 7XNN | `VX += NN` | Adds NN to VX. (Carry flag is not changed) |
+| ✓ | 8XY0 | `VX = VY` | Sets VX to the value of VY. |
+| ✓ | 8XY1 | `VX = VX \| VY` | Sets VX to VX or VY. (Bitwise OR operation) |
+| ✓ | 8XY2 | `VX = VX & VY` | Sets VX to VX and VY. (Bitwise AND operation) |
+| ✓ | 8XY3 | `VX = VX ^ VY` | Sets VX to VX xor VY. |
+| ✓ | 8XY4 | `VX += VY` | Adds VY to VX. VF is set to 1 when there's a carry, and to 0 when there isn't. |
+| ✓ | 8XY5 | `VX -= VY` | VY is subtracted from VX. VF is set to 0 when there's a borrow, and 1 when there isn't. |
+| ✓ | 8XY6 | `VX = VY = VY >> 1` | Shifts VY right by one and copies the result to VX. VF is set to the value of the least significant bit of VY before the shift. |
+| ✓ | 8XY7 | `VX = VY - VX` | Sets VX to VY minus VX. VF is set to 0 when there's a borrow, and 1 when there isn't. |
+| ✓ | 8XYE | `VX = VY = VY << 1` | Shifts VY left by one and copies the result to VX. VF is set to the value of the most significant bit of VY before the shift. |
 |  | 9XY0 | `if (VX != VY)` | Skips the next instruction if VX doesn't equal VY. (Usually the next instruction is a jump to skip a code block) |
 |  | ANNN | `I = NNN` | Sets I to the address NNN. |
 |  | BNNN | `PC = V0 + NNN` | Jumps to the address NNN plus V0. |
-|  | CXNN | `VX = rand() & NN` | Sets VX to the result of a bitwise and operation on a random number (Typically: 0 to 255) and NN. |
+| ✓ | CXNN | `VX = rand() & NN` | Sets VX to the result of a bitwise and operation on a random number (Typically: 0 to 255) and NN. |
 |  | DXYN | `draw(VX, VY, N)` | Draws a sprite at coordinate (VX, VY) that has a width of 8 pixels and a height of N pixels. Each row of 8 pixels is read as bit-coded starting from memory location I; I value doesn’t change after the execution of this instruction. As described above, VF is set to 1 if any screen pixels are flipped from set to unset when the sprite is drawn, and to 0 if that doesn’t happen |
 |  | EX9E | `if (key() == VX)` | Skips the next instruction if the key stored in VX is pressed. (Usually the next instruction is a jump to skip a code block) |
 |  | EXA1 | `if (key() != VX)` | Skips the next instruction if the key stored in VX isn't pressed. (Usually the next instruction is a jump to skip a code block) |

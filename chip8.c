@@ -24,6 +24,10 @@ unsigned short get_instr(Chip8 * c8) {
     return instr;
 }
 
+void set_i(Chip8 * c8, short addr);
+
+void add_i(Chip8 * c8, unsigned char reg);
+
 void get_delay(Chip8 * c8, unsigned char reg);
 
 void set_delay(Chip8 * c8, unsigned char reg);
@@ -50,7 +54,7 @@ int main(int argc, char * argv[]) {
     Chip8 * engine = init(argv[1]);
 
     unsigned short instr, addr;
-    unsigned char opcode, reg_x, reg_y, val;
+    unsigned char opcode, reg_x, reg_y, val, mod;
     while (engine->pc < MEM_SIZE) {
         instr = get_instr(engine);
         printf("%04x\n", instr);
@@ -60,6 +64,7 @@ int main(int argc, char * argv[]) {
         reg_x = instr & 0xf00 >> 8;
         reg_y = instr & 0xf0 >> 4;
         val = instr & 0xff;
+        mod = instr & 0xf;
         switch (opcode) {
             case 0x0:
                 if (instr == 0xe0) clear_scr(engine);
@@ -84,10 +89,41 @@ int main(int argc, char * argv[]) {
                 if_req(engine, reg_x, reg_y);
                 break;
             case 0x6:
+                set_n(engine, reg_x, val);
                 break;
             case 0x7:
+                add_n(engine, reg_x, val);
                 break;
             case 0x8:
+                switch (mod) {
+                    case 0x0:
+                        set_r(engine, reg_x, reg_y);
+                        break;
+                    case 0x1:
+                        or_r(engine, reg_x, reg_y);
+                        break;
+                    case 0x2:
+                        and_r(engine, reg_x, reg_y);
+                        break;
+                    case 0x3:
+                        xor_r(engine, reg_x, reg_y);
+                        break;
+                    case 0x4:
+                        add_r(engine, reg_x, reg_y);
+                        break;
+                    case 0x5:
+                        sub_r(engine, reg_x, reg_y);
+                        break;
+                    case 0x6:
+                        rs_r(engine, reg_x, reg_y);
+                        break;
+                    case 0x7:
+                        diff_r(engine, reg_x, reg_y);
+                        break;
+                    case 0xe:
+                        ls_r(engine, reg_x, reg_y);
+                        break;
+                }
                 break;
             case 0x9:
                 break;
@@ -96,6 +132,7 @@ int main(int argc, char * argv[]) {
             case 0xb:
                 break;
             case 0xc:
+                rand_r(engine, reg_x, val);
                 break;
             case 0xd:
                 break;
