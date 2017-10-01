@@ -38,10 +38,10 @@ Taken from [Wikipedia](https://en.wikipedia.org/wiki/CHIP-8).
 | ✓ | BNNN | `PC = V0 + NNN` | Jumps to the address NNN plus V0. |
 | ✓ | CXNN | `VX = rand() & NN` | Sets VX to the result of a bitwise and operation on a random number (Typically: 0 to 255) and NN. |
 |  | DXYN | `draw(VX, VY, N)` | Draws a sprite at coordinate (VX, VY) that has a width of 8 pixels and a height of N pixels. Each row of 8 pixels is read as bit-coded starting from memory location I; I value doesn’t change after the execution of this instruction. As described above, VF is set to 1 if any screen pixels are flipped from set to unset when the sprite is drawn, and to 0 if that doesn’t happen |
-|  | EX9E | `if (key() == VX)` | Skips the next instruction if the key stored in VX is pressed. (Usually the next instruction is a jump to skip a code block) |
-|  | EXA1 | `if (key() != VX)` | Skips the next instruction if the key stored in VX isn't pressed. (Usually the next instruction is a jump to skip a code block) |
+| ✓ | EX9E | `if (key() == VX)` | Skips the next instruction if the key stored in VX is pressed. (Usually the next instruction is a jump to skip a code block) |
+| ✓ | EXA1 | `if (key() != VX)` | Skips the next instruction if the key stored in VX isn't pressed. (Usually the next instruction is a jump to skip a code block) |
 |  | FX07 | `VX = get_delay()` | Sets VX to the value of the delay timer. |
-|  | FX0A | `VX = get_key()` | A key press is awaited, and then stored in VX. (Blocking Operation. All instruction halted until next key event) |
+| ✓ | FX0A | `VX = get_key()` | A key press is awaited, and then stored in VX. (Blocking Operation. All instruction halted until next key event) |
 |  | FX15 | `delay_timer(VX)` | Sets the delay timer to VX. |
 |  | FX18 | `sound_timer(VX)` | Sets the sound timer to VX. |
 |  | FX1E | `I += VX` | Adds VX to I. |

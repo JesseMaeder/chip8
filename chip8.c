@@ -1,9 +1,9 @@
-#ifndef CHIP8
 #include "chip8.h"
-#endif
+#include "input.h"
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <ncurses.h>
 
 Chip8 * init(char* game) {
     FILE * fp = fopen(game, "r");
@@ -15,6 +15,12 @@ Chip8 * init(char* game) {
     c8->pc = PC_START;
     fread((char *) c8->mem + PC_START, 1, MEM_SIZE - PC_START, fp);
     fclose(fp);
+
+    // initialize ncurses for reading input 
+    initscr();
+    noecho();
+    nodelay(stdscr, TRUE);
+
     return c8;
 }
 
@@ -44,6 +50,7 @@ void load_reg(Chip8 * c8, unsigned char reg);
 
 void shutdown(Chip8 * c8) {
     printf("Shutting down emulator\n");
+    endwin();
     free(c8);
 }
 
@@ -58,8 +65,10 @@ int main(int argc, char * argv[]) {
     unsigned short instr, addr;
     unsigned char opcode, reg_x, reg_y, val, mod;
     while (engine->pc < MEM_SIZE) {
+        // update the input state, get which key is currently pressed
+        read_key(engine);
         instr = get_instr(engine);
-        printf("%04x\n", instr);
+        // printf("%04x\n", instr);
         if (instr == 0) break;
         opcode = (instr & 0xf000) >> 12;
         addr = instr & 0xfff;
@@ -142,8 +151,15 @@ int main(int argc, char * argv[]) {
             case 0xd:
                 break;
             case 0xe:
+                if (val == 0x9e) if_key(engine, reg_x);
+                else if (val == 0xa1) if_nkey(engine, reg_x);
                 break;
             case 0xf:
+                switch (val) {
+                    case 0x0a:
+                        get_key(engine, reg_x);
+                        break;
+                }
                 break;
         }
     }

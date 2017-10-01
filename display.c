@@ -1,6 +1,4 @@
-#ifndef CHIP8
 #include "chip8.h"
-#endif
 
 #include <string.h>
 

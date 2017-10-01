@@ -1,6 +1,4 @@
-#ifndef CHIP8
 #include "chip8.h"
-#endif
 
 void if_eq(Chip8 * c8, unsigned char reg, char val) {
     // 0x3XNN

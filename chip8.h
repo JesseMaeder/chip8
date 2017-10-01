@@ -1,4 +1,5 @@
 // chip8.h - definitions of the virtual machine
+#ifndef CHIP8
 #define CHIP8
 #include <stdbool.h>
 
@@ -97,3 +98,5 @@ void store_bcd(Chip8 * c8, unsigned char reg);
 void dump_reg(Chip8 * c8, unsigned char reg);
 
 void load_reg(Chip8 * c8, unsigned char reg);
+
+#endif
