@@ -24,7 +24,6 @@ typedef struct {
     unsigned char delay, sound;
     unsigned char inputs[NUM_INPUTS];
     unsigned char screen[SCR_WIDTH * SCR_HEIGHT / 0x40];
-    bool draw;
     unsigned short pc;
 } Chip8;
 

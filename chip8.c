@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <SDL2/SDL.h>
+#include <unistd.h>
 
 Chip8 * init_emu(char* game) {
     FILE * fp = fopen(game, "r");
@@ -74,6 +75,24 @@ void shutdown_emu(Chip8 * c8) {
     free(c8);
 }
 
+void dump_info(Chip8 * c8) {
+    unsigned short instr = get_instr(c8);
+    c8->pc -= 2;
+    printf("PC: 0x%04x - I: 0x%04x - Instruction: %04x\n", c8->pc, c8->i, instr);
+    int base;
+    printf("Register contents:\n");
+    for (int i = 0; i < 4; i++) {
+        base = i * 4;
+        printf(
+            "\tV%x: 0x%02x\tV%x: 0x%02x\tV%x: 0x%02x\tV%x: 0x%02x\n",
+            base, c8->v[base],
+            base + 1, c8->v[base + 1],
+            base + 2, c8->v[base + 2],
+            base + 3, c8->v[base + 3]
+        );
+    }
+}
+
 int main(int argc, char * argv[]) {
     if (argc != 2) {
         fprintf(stderr, "Usage: chip8 <game file>\n");
@@ -90,6 +109,7 @@ int main(int argc, char * argv[]) {
     unsigned short instr, addr;
     unsigned char opcode, reg_x, reg_y, val, mod;
     while (engine->pc < MEM_SIZE) {
+        // dump_info(engine);
         if (SDL_PollEvent(&event) && event.type == SDL_QUIT) break;
 
         // update timers
@@ -103,8 +123,8 @@ int main(int argc, char * argv[]) {
 
         opcode = (instr & 0xf000) >> 12;
         addr = instr & 0xfff;
-        reg_x = instr & 0xf00 >> 8;
-        reg_y = instr & 0xf0 >> 4;
+        reg_x = (instr & 0xf00) >> 8;
+        reg_y = (instr & 0xf0) >> 4;
         val = instr & 0xff;
         mod = instr & 0xf;
 
@@ -181,6 +201,7 @@ int main(int argc, char * argv[]) {
                 rand_r(engine, reg_x, val);
                 break;
             case 0xd:
+                draw(engine, renderer, reg_x, reg_y, mod);
                 break;
             case 0xe:
                 if (val == 0x9e) if_key(engine, reg_x);

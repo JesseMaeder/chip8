@@ -14,7 +14,7 @@ Taken from [Wikipedia](https://en.wikipedia.org/wiki/CHIP-8).
 
 |   | Opcode | Operation | Explanation |
 |---|--------|-----------|-------------|
-| ✓ | 0NNN | | Calls RCA 1802 program at address NNN. Not necessary for most ROMs. |
+|  | 0NNN | | Calls RCA 1802 program at address NNN. Not necessary for most ROMs. |
 | ✓ | 00E0 | `disp_clear()` | Clears the screen. |
 | ✓ | 00EE | `return;` | Returns from a subroutine. |
 | ✓ | 1NNN | `goto NNN;` | Jumps to address NNN. |
