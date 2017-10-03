@@ -33,7 +33,7 @@ void shutdown_emu(Chip8 * c8);
 
 unsigned short get_instr(Chip8 * c8);
 
-void clear_scr(Chip8 * c8);
+void clear_scr(Chip8 * c8, SDL_Renderer * renderer);
 
 void ret(Chip8 *c8);
 

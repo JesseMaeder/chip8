@@ -130,7 +130,7 @@ int main(int argc, char * argv[]) {
 
         switch (opcode) {
             case 0x0:
-                if (instr == 0xe0) clear_scr(engine);
+                if (instr == 0xe0) clear_scr(engine, renderer);
                 else if (instr == 0xee) ret(engine);
                 else {
                     printf("Call RCA 1802 program at 0x%4x\n", addr);

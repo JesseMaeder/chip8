@@ -21,7 +21,6 @@ void jump(Chip8 * c8, short addr) {
 
 void jump_link(Chip8 * c8, short addr) {
     // 0x2NNN
-    printf("%d\n", c8->sp);
     if (c8->sp >= STACK_SIZE) {
         fprintf(stderr, "Stack overflow error!\n");
         shutdown_emu(c8);
